@@ -12,10 +12,11 @@ based on the submitted assignment with Keith Harrigian
 and Carlos Aguirre Fall 2019
 """
 import os
+import re
 import sys
 import random
 import argparse
-import re
+
 
 # Want to know what command-line arguments a program allows?
 # Commonly you can ask by passing it the --help option, like this:
@@ -88,7 +89,7 @@ class Grammar:
 
         Args:
             grammar_file (str): Path to a .gr grammar file
-        
+
         Returns:
             self
         """
@@ -101,40 +102,43 @@ class Grammar:
         Read grammar file and store its rules in self.rules
 
         Args:
-            grammar_file (str): Path to the raw grammar file 
+            grammar_file (str): Path to the raw grammar file
         """
-        ##Siwei 
+        ##Siwei & Shreayan
         rules = {}
         file = open(grammar_file, 'r')
+
         for line in file.readlines():
+
+            # traverse grammar file linewise and create the rules dict with odds
             if line[0].isdigit():
                 line = line.strip("\n")
-                rule_parts = re.split("\t", line)
-                weight = rule_parts[0]
-                LHS = rule_parts[1]
-                RHS = rule_parts[2]
-                pattern ="  " + ".*"
+                weight, LHS, RHS = re.split("\t", line)
+                weight = int(weight)
+
+                pattern = "  " + ".*"
                 RHS = re.sub(pattern, '', RHS)
+
                 if LHS not in rules.keys():
+                    # if symbol is not existing in rules, then create a new dictionary along with its odds
                     rules[LHS] = {}
-                    rules[LHS][RHS] = weight
-                else:
-                    rules[LHS][RHS] = weight
+
+                # set the odds / weights of the symbol
+                rules[LHS][RHS] = weight
+
         print(rules)
         self.rules = rules
-        ##Siwei 
-
-        #raise NotImplementedError
+        ##Siwei & Shreayan
 
     def sample(self, derivation_tree, max_expansions, start_symbol):
         """
         Sample a random sentence from this grammar
 
         Args:
-            derivation_tree (bool): if true, the returned string will represent 
-                the tree (using bracket notation) that records how the sentence 
+            derivation_tree (bool): if true, the returned string will represent
+                the tree (using bracket notation) that records how the sentence
                 was derived
-                               
+
             max_expansions (int): max number of nonterminal expansions we allow
 
             start_symbol (str): start symbol to generate from
@@ -142,29 +146,26 @@ class Grammar:
         Returns:
             str: the random sentence or its derivation tree
         """
+        ## Siwei & Shreayan
         sentence = ""
-        LHS = start_symbol 
-        symbols = []
-        symbol_weights = []
+        LHS = start_symbol
         if LHS in self.rules.keys():
-            for item in self.rules[LHS].items():
-                symbols.append(item[0])
-                symbol_weights.append(float(item[1]))
-            RHS_choices = random.choices(symbols, symbol_weights, k=1)
-            for symbol in RHS_choices[0].split(" "):
-                sentence = sentence + self.sample(
-                    derivation_tree, max_expansions, symbol,
-                )
+            # if the symbol is found in the grammar ruleset, recursively parse it
+            RHS = list(self.rules[LHS].keys())
+            odds = list(self.rules[LHS].values())
+
+            # select a random expansion with the given weights
+            expansion = random.choices(RHS, odds, k=1)[0]
+
+            # split the expansion and look for other symbols in it recursively
+            for symbol in expansion.split(" "):
+                sentence += self.sample(derivation_tree=derivation_tree,
+                                        max_expansions=max_expansions,
+                                        start_symbol=symbol)
         else:
-            sentence = sentence + LHS + " "
-
+            # otherwise just add the symbol to the sentence as it is
+            sentence += LHS + " "
         return sentence
-        ##Siwei
-        
-
-
-
-        raise NotImplementedError
 
 
 ####################
@@ -193,7 +194,6 @@ def main():
             t = os.system(f"echo '{sentence}' | perl {prettyprint_path}")
         else:
             print(sentence)
-            
 
 
 if __name__ == "__main__":
