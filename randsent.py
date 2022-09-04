@@ -110,20 +110,21 @@ class Grammar:
             if line[0].isdigit():
                 line = line.strip("\n")
                 rule_parts = re.split("\t", line)
+                weight = rule_parts[0]
                 LHS = rule_parts[1]
                 RHS = rule_parts[2]
                 pattern ="  " + ".*"
                 RHS = re.sub(pattern, '', RHS)
                 if LHS not in rules.keys():
-                    rules[LHS] = []
-                    rules[LHS].append(RHS)
+                    rules[LHS] = {}
+                    rules[LHS][RHS] = weight
                 else:
-                    rules[LHS].append(RHS)
-        #print(rules)
+                    rules[LHS][RHS] = weight
+        print(rules)
         self.rules = rules
         ##Siwei 
 
-        raise NotImplementedError
+        #raise NotImplementedError
 
     def sample(self, derivation_tree, max_expansions, start_symbol):
         """
@@ -141,15 +142,22 @@ class Grammar:
         Returns:
             str: the random sentence or its derivation tree
         """
-        sentence = list()
+        sentence = ""
         LHS = start_symbol 
-        if LHS in rules.keys():
-            expansion = random.choice(rules[LHS])
-            for symbol in expansion.split(" "):
-                sentence.extend(sample(start_symbol = symbol))
+        symbols = []
+        symbol_weights = []
+        if LHS in self.rules.keys():
+            for item in self.rules[LHS].items():
+                symbols.append(item[0])
+                symbol_weights.append(float(item[1]))
+            RHS_choices = random.choices(symbols, symbol_weights, k=1)
+            for symbol in RHS_choices[0].split(" "):
+                sentence = sentence + self.sample(
+                    derivation_tree, max_expansions, symbol,
+                )
         else:
-            sentence.append(symbol)
-        
+            sentence = sentence + LHS + " "
+
         return sentence
         ##Siwei
         
@@ -185,6 +193,7 @@ def main():
             t = os.system(f"echo '{sentence}' | perl {prettyprint_path}")
         else:
             print(sentence)
+            
 
 
 if __name__ == "__main__":
