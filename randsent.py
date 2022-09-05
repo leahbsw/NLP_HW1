@@ -95,6 +95,7 @@ class Grammar:
         """
         # Parse the input grammar file
         self.rules = None
+        self.num_expansions = 0
         self._load_rules_from_file(grammar_file)
 
     def _load_rules_from_file(self, grammar_file):
@@ -149,21 +150,28 @@ class Grammar:
         ## Siwei & Shreayan
         sentence = ""
         LHS = start_symbol
+        # print(self.num_expansions)
+        if self.num_expansions > max_expansions:
+            return "..."
+
         if LHS in self.rules.keys():
             # if the symbol is found in the grammar ruleset, recursively parse it
+
             RHS = list(self.rules[LHS].keys())
             odds = list(self.rules[LHS].values())
 
             # select a random expansion with the given weights
             expansion = random.choices(RHS, odds, k=1)[0]
 
-            # split the expansion and look for other symbols in it recursively
+            # split the expansion and look for other symbols in it recursively - nonterminal symbols
             for symbol in expansion.split(" "):
                 sentence += self.sample(derivation_tree=derivation_tree,
                                         max_expansions=max_expansions,
                                         start_symbol=symbol)
+                self.num_expansions += 1
+
         else:
-            # otherwise just add the symbol to the sentence as it is
+            # otherwise just add the symbol to the sentence as it is - terminal symbols
             sentence += LHS + " "
         return sentence
 
