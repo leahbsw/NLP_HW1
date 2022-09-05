@@ -153,6 +153,10 @@ class Grammar:
         if LHS in self.rules.keys():
             # if the symbol is found in the grammar ruleset, recursively parse it
 
+            if derivation_tree:
+                # adding the tree representation and parenthesis to show provenance
+                sentence += "(" + LHS + " "
+
             RHS = list(self.rules[LHS].keys())
             odds = list(self.rules[LHS].values())
 
@@ -161,18 +165,19 @@ class Grammar:
 
             # split the expansion and look for other symbols in it recursively - nonterminal symbols
             for symbol in expansion.split(" "):
-                if derivation_tree:
-                    sentence += "(" + LHS + " "
                 sentence += self.sample(derivation_tree=derivation_tree,
                                         max_expansions=max_expansions,
                                         start_symbol=symbol)
-                if derivation_tree:
-                    sentence += ")"
+            if derivation_tree:
+                # close the parentheses of the above symbol
+                sentence += ")"
 
         else:
             # otherwise just add the symbol to the sentence as it is - terminal symbols
             sentence += LHS + " "
+
             if derivation_tree:
+                # close the parentheses of the terminal symbols
                 sentence += ")"
         return sentence
 
@@ -191,7 +196,7 @@ def main():
     for i in range(args.num_sentences):
         # Use Grammar object to generate sentence
         sentence = grammar.sample(
-            derivation_tree=True,#args.tree,
+            derivation_tree=args.tree,
             max_expansions=args.max_expansions,
             start_symbol=args.start_symbol
         )
