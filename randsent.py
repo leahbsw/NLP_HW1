@@ -172,6 +172,8 @@ class Grammar:
         else:
             # otherwise just add the symbol to the sentence as it is - terminal symbols
             sentence += LHS + " "
+            if derivation_tree:
+                sentence += ")"
         return sentence
 
 
@@ -189,7 +191,7 @@ def main():
     for i in range(args.num_sentences):
         # Use Grammar object to generate sentence
         sentence = grammar.sample(
-            derivation_tree=args.tree,
+            derivation_tree=True,#args.tree,
             max_expansions=args.max_expansions,
             start_symbol=args.start_symbol
         )
