@@ -142,11 +142,28 @@ class Grammar:
         Returns:
             str: the random sentence or its derivation tree
         """
-        sentence = ""
-        LHS = start_symbol 
+        #sentence = "(" + start_symbol 
+        #LHS = start_symbol 
+        #symbols = []
+        #symbol_weights = []
+        #if LHS in self.rules.keys():
+            #for item in self.rules[LHS].items():
+                #symbols.append(item[0])
+                #symbol_weights.append(float(item[1]))
+            #RHS_choices = random.choices(symbols, symbol_weights, k=1)
+            #for symbol in RHS_choices[0].split(" "):
+                #sentence = sentence + "("  + symbol + self.sample(
+                    #derivation_tree, max_expansions, symbol,
+                #)
+        #else:
+            #sentence = sentence + LHS + ")" + " "
+
+        sentence = ''
+        LHS = start_symbol
         symbols = []
         symbol_weights = []
         if LHS in self.rules.keys():
+            sentence = sentence + '(' + LHS + ')'
             for item in self.rules[LHS].items():
                 symbols.append(item[0])
                 symbol_weights.append(float(item[1]))
@@ -156,9 +173,39 @@ class Grammar:
                     derivation_tree, max_expansions, symbol,
                 )
         else:
-            sentence = sentence + LHS + " "
+            sentence = sentence + ' '+ LHS
 
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         return sentence
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         ##Siwei
         
 
