@@ -12,10 +12,11 @@ based on the submitted assignment with Keith Harrigian
 and Carlos Aguirre Fall 2019
 """
 import os
+import re
 import sys
 import random
 import argparse
-import re
+
 
 # Want to know what command-line arguments a program allows?
 # Commonly you can ask by passing it the --help option, like this:
@@ -88,7 +89,7 @@ class Grammar:
 
         Args:
             grammar_file (str): Path to a .gr grammar file
-        
+
         Returns:
             self
         """
@@ -101,40 +102,101 @@ class Grammar:
         Read grammar file and store its rules in self.rules
 
         Args:
-            grammar_file (str): Path to the raw grammar file 
+            grammar_file (str): Path to the raw grammar file
         """
-        ##Siwei 
+        ##Siwei & Shreayan
         rules = {}
         file = open(grammar_file, 'r')
+
         for line in file.readlines():
+
+            # traverse grammar file linewise and create the rules dict with odds
             if line[0].isdigit():
                 line = line.strip("\n")
-                rule_parts = re.split("\t", line)
-                weight = rule_parts[0]
-                LHS = rule_parts[1]
-                RHS = rule_parts[2]
-                pattern ="  " + ".*"
+                weight, LHS, RHS = re.split("\t", line)
+                weight = int(weight)
+
+                pattern = "  " + ".*"
                 RHS = re.sub(pattern, '', RHS)
+
                 if LHS not in rules.keys():
+                    # if symbol is not existing in rules, then create a new dictionary along with its odds
                     rules[LHS] = {}
-                    rules[LHS][RHS] = weight
-                else:
-                    rules[LHS][RHS] = weight
+
+                # set the odds / weights of the symbol
+                rules[LHS][RHS] = weight
+
         print(rules)
         self.rules = rules
-        ##Siwei 
+        ##Siwei & Shreayan
 
-        #raise NotImplementedError
+    def parse_symbols(self, symbol, derivation_tree, num_expansions):
+        """
+        Function to parse the symbols in the ruleset
+        Args:
+            symbol: the symbol to be parsed
+            derivation_tree: if true, the returned string will represent
+                the tree (using bracket notation) that records how the sentence
+                was derived
+            num_expansions: the number of expansions in the tree to keep a track on
+
+        Returns:
+            str: the string containing the parsed symbols
+        """
+        sentence = ""
+
+        # start with max_expansions given by the usert and keep decrementing each time symbol is expanded
+        self.num_expansions -= 1
+
+        if num_expansions <= 0:
+            # for very large sentences, return ... when the limit is reached
+            return "..."
+
+        if symbol in self.rules.keys():
+            # if the symbol is found in the grammar ruleset, recursively parse it
+
+            if derivation_tree:
+                # adding the tree representation and parenthesis to show provenance
+                sentence += "(" + symbol + " "
+
+            RHS = list(self.rules[symbol].keys())
+            odds = list(self.rules[symbol].values())
+
+            # select a random expansion with the given weights
+            expansion = random.choices(RHS, odds, k=1)[0]
+
+            if any(ch.isupper() for ch in expansion):
+                # if the symbol contains any nonterminal symbols like S, NP, VP, is it true that S ?
+                # split the expansion and look for other symbols in it recursively - nonterminal symbols
+                for symbol in expansion.split(" "):
+                    sentence += self.parse_symbols(symbol=symbol,
+                                                   derivation_tree=derivation_tree,
+                                                   num_expansions=self.num_expansions)
+                if derivation_tree:
+                    # close the parentheses of the above symbol
+                    sentence += ")"
+            else:
+                # otherwise just add the expansion to the sentence as it is (chief of staff, and multi word symbols)
+                sentence += expansion
+                if derivation_tree:
+                    # adding the tree representation and parenthesis to show provenance
+                    sentence += ")"
+
+        else:
+            # otherwise just add the symbol to the sentence as it is - terminal symbols
+            sentence += symbol + " "
+
+        return sentence
 
     def sample(self, derivation_tree, max_expansions, start_symbol):
         """
         Sample a random sentence from this grammar
 
         Args:
-            derivation_tree (bool): if true, the returned string will represent 
-                the tree (using bracket notation) that records how the sentence 
+            derivation_tree (bool): if true, the returned string will represent
+                the tree (using bracket notation) that records how the sentence
                 was derived
-                               
+
             max_expansions (int): max number of nonterminal expansions we allow
 
             start_symbol (str): start symbol to generate from
@@ -142,76 +204,13 @@ class Grammar:
         Returns:
             str: the random sentence or its derivation tree
         """
-        #sentence = "(" + start_symbol 
-        #LHS = start_symbol 
-        #symbols = []
-        #symbol_weights = []
-        #if LHS in self.rules.keys():
-            #for item in self.rules[LHS].items():
-                #symbols.append(item[0])
-                #symbol_weights.append(float(item[1]))
-            #RHS_choices = random.choices(symbols, symbol_weights, k=1)
-            #for symbol in RHS_choices[0].split(" "):
-                #sentence = sentence + "("  + symbol + self.sample(
-                    #derivation_tree, max_expansions, symbol,
-                #)
-        #else:
-            #sentence = sentence + LHS + ")" + " "
+        ## Siwei & Shreayan
+        # class variable to keep a track on the number expansions when user enters multiple sentences
+        self.num_expansions = max_expansions
 
-        sentence = ''
-        LHS = start_symbol
-        symbols = []
-        symbol_weights = []
-        if LHS in self.rules.keys():
-            sentence = sentence + '(' + LHS + ')'
-            for item in self.rules[LHS].items():
-                symbols.append(item[0])
-                symbol_weights.append(float(item[1]))
-            RHS_choices = random.choices(symbols, symbol_weights, k=1)
-            for symbol in RHS_choices[0].split(" "):
-                sentence = sentence + self.sample(
-                    derivation_tree, max_expansions, symbol,
-                )
-        else:
-            sentence = sentence + ' '+ LHS
-
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        # decrement number of expansions each time the recursive function is called
+        sentence = self.parse_symbols(start_symbol, derivation_tree, self.num_expansions)
         return sentence
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ##Siwei
-        
-
-
-
-        raise NotImplementedError
 
 
 ####################
@@ -240,7 +239,6 @@ def main():
             t = os.system(f"echo '{sentence}' | perl {prettyprint_path}")
         else:
             print(sentence)
-            
 
 
 if __name__ == "__main__":
