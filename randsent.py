@@ -145,14 +145,14 @@ class Grammar:
         """
         sentence = ""
 
-        # start with max_expansions given by the usert and keep decrementing each time symbol is expanded
-        self.num_expansions -= 1
-
         if num_expansions <= 0:
             # for very large sentences, return ... when the limit is reached
             return "..."
 
         if symbol in self.rules.keys():
+            # start with max_expansions given by the user and keep decrementing each time symbol is expanded
+            self.num_expansions -= 1
+
             # if the symbol is found in the grammar ruleset, recursively parse it
 
             if derivation_tree:
@@ -166,6 +166,7 @@ class Grammar:
             expansion = random.choices(RHS, odds, k=1)[0]
 
             if any(ch.isupper() for ch in expansion):
+
                 # if the symbol contains any nonterminal symbols like S, NP, VP, is it true that S ?
                 # split the expansion and look for other symbols in it recursively - nonterminal symbols
                 for symbol in expansion.split(" "):
