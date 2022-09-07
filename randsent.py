@@ -178,7 +178,7 @@ class Grammar:
                     sentence += ")"
             else:
                 # otherwise just add the expansion to the sentence as it is (chief of staff, and multi word symbols)
-                sentence += expansion
+                sentence += expansion + " "
                 if derivation_tree:
                     # adding the tree representation and parenthesis to show provenance
                     sentence += ")"
