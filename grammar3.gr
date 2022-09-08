@@ -21,36 +21,36 @@
 
 1	ROOT	S .
 1	ROOT	S !
+1	ROOT	CS .
+1	ROOT	CS !
 1	ROOT	is it true that S ?     # mixing terminals and nonterminals is ok.
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
+#    CS = composite sentence
 #    NP = noun phrase
 #    VP = verb phrase
-#    SC = subject clause
-#    SCV = subject clause verb
 #    PP = prepositional phrase
 #    Det = determiner (sometimes called "article")
 #    Prep = preposition
 #    Adj = adjective
 
 1	S	NP VP
-# charlotte says the following rule is handled 
-1	S	it VP SC
-1	S	SC VP
-1	NP	Det Noun
-1	NP	NP PP
-1	NP	Noun
-1	NP	NP and NP
+1	CS	NP SCV SC
+1	CS	SC VP
+1	CS	it VP SC
 1	SC	that S
-1	VP	Verb NP
 1	VP	TV NP
-1	VP	TV and TV NP
 1	VP	ITV
 1	VP	ITV PP
-1	VP	SCV SC
+1	VP	VP and VP
+3	NP	Det Noun
+1	NP	NP PP
+3	NP	PNoun
+1	NP	NP and NP
 1	PP	Prep NP
 1	Noun	Adj Noun
+1	Adj	very Adj
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -61,13 +61,14 @@
 1	TV	ate
 1	TV	wanted
 1	TV	kissed
+1	TV	understood
 1	TV	pickled
 1	TV	perplexed
 1	ITV	sighed
 1	ITV	worked
 1	SCV	thought
-1	SCV	understood
 1	SCV	said
+1	SCV	understood
 
 1	Det	the
 1	Det	a
@@ -78,20 +79,16 @@
 1	Noun	pickle
 1	Noun	chief of staff
 1	Noun	floor
-1	Noun	Sally
-1	Noun	it
+1	PNoun	Sally
+1	PNoun	Tom
+1	PNoun	JHU
 
 1	Adj	fine
 1	Adj	delicious
 1	Adj	perplexed
 1	Adj	pickled
-1	Adj	very
 
 1	Prep	with
 1	Prep	on
 1	Prep	under
 1	Prep	in
-
-1	Conj	and
-1	Conj	that
-
