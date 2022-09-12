@@ -49,13 +49,18 @@
 1	VP	ITV
 1	VP	ITV PP
 1	VP	VP and VP
-3	NP	Det Noun
+# 1	VP	TV RC
+3	NP	a CNoun
+3	NP	an VNoun
 1	NP	NP PP
 3	NP	PNoun
 1	NP	NP and NP
 1	PP	Prep NP
-1	Noun	Adj Noun
-1	Adj	very Adj
+1	CNoun	CAdj CNoun
+1	CNoun	CAdj VNoun
+1	VNoun	VAdj CNoun
+1	VNoun	VAdj VNoun
+1	CAdj	very CAdj
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -77,21 +82,32 @@
 
 1	Det	the
 1	Det	a
+1	Det	an
 1	Det	every
 
-1	Noun	president
-1	Noun	sandwich
-1	Noun	pickle
-1	Noun	chief of staff
-1	Noun	floor
+1	CNoun	president
+1	CNoun	sandwich
+1	CNoun	pickle
+1	CNoun	chief of staff
+1	CNoun	floor
+1	VNoun	imp
+1	VNoun	aardvark
+1	VNoun	antelope
+1	VNoun	orange
+1	VNoun	envelope
+1	VNoun	umbrella
 1	PNoun	Sally
 1	PNoun	Tom
 1	PNoun	JHU
 
-1	Adj	fine
-1	Adj	delicious
-1	Adj	perplexed
-1	Adj	pickled
+1	VAdj	amazing
+1	VAdj	unctuous
+1	VAdj	interested
+1	VAdj	elegant
+1	CAdj	fine
+1	CAdj	delicious
+1	CAdj	perplexed
+1	CAdj	pickled
 
 1	Prep	with
 1	Prep	on
