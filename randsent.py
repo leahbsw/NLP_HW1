@@ -114,7 +114,7 @@ class Grammar:
             if line[0].isdigit():
                 line = line.strip("\n")
                 weight, LHS, RHS = re.split("\t", line)
-                weight = int(weight)
+                weight = float(weight)
 
                 pattern = "  " + ".*"
                 RHS = re.sub(pattern, '', RHS)
