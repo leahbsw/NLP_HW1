@@ -126,7 +126,6 @@ class Grammar:
                 # set the odds / weights of the symbol
                 rules[LHS][RHS] = weight
 
-        print(rules)
         self.rules = rules
         ##Siwei & Shreayan
 
