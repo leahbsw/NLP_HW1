@@ -28,8 +28,8 @@
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
 #    CS = composite sentence
-#    SC = subject clause
-#    SCV = subject clause verb
+#    NC = noun clause
+#    NCV = noun clause verb
 #    TV = transitive verb
 #    ITV = intransitive verb
 #    Pnoun = proper nouns + it
@@ -41,10 +41,10 @@
 #    Adj = adjective
 
 1	S	NP VP
-1	CS	NP SCV SC
-1	CS	SC VP
-1	CS	it VP SC
-1	SC	that S
+1	CS	NP NCV NC
+1	CS	NC VP
+1	CS	it VP NC
+1	NC	that S
 1	VP	TV NP
 1	VP	ITV
 1	VP	ITV PP
@@ -71,9 +71,9 @@
 1	TV	perplexed
 1	ITV	sighed
 1	ITV	worked
-1	SCV	thought
-1	SCV	said
-1	SCV	understood
+1	NCV	thought
+1	NCV	said
+1	NCV	understood
 
 1	Det	the
 1	Det	a

@@ -21,15 +21,16 @@
 
 1	ROOT	S .
 1	ROOT	S !
-1	ROOT	CS .
-1	ROOT	CS !
-1	ROOT	is it true that S ?     # mixing terminals and nonterminals is ok.
+1	ROOT	NC .
+1	ROOT	NC !
+1	ROOT	is it true that NC ?     # mixing terminals and nonterminals is ok.
+
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
-#    CS = composite sentence
-#    SC = subject clause
-#    SCV = subject clause verb
+#    NC  = noun clause
+#    AC  = adjective clause
+#    NCV = noun clause verb
 #    TV = transitive verb
 #    ITV = intransitive verb
 #    Pnoun = proper nouns + it
@@ -41,15 +42,17 @@
 #    Adj = adjective
 
 1	S	NP VP
-1	CS	NP SCV SC
-1	CS	SC VP
-1	CS	it VP SC
-1	SC	that S
+1	NC	NP NCV that S
+1	NC	that S VP
+1	NC	it VP that S
+1	NP	NP that TV NP
+1	NP	NP that NP ITV
+1	NP	NP that NP NCV that NP ITV
+1	NP	NP that NP NCV that TV NP
 1	VP	TV NP
 1	VP	ITV
 1	VP	ITV PP
 1	VP	VP and VP
-# 1	VP	TV RC
 3	NP	a CNoun
 3	NP	an VNoun
 1	NP	NP PP
@@ -61,6 +64,8 @@
 1	VNoun	VAdj CNoun
 1	VNoun	VAdj VNoun
 1	CAdj	very CAdj
+1	CAdj	very VAdj
+
 
 # Vocabulary.  Your program can see that "ate" is a terminal
 # symbol because there exists no rule for rewriting it.
@@ -76,9 +81,9 @@
 1	TV	perplexed
 1	ITV	sighed
 1	ITV	worked
-1	SCV	thought
-1	SCV	said
-1	SCV	understood
+1	NCV	thought
+1	NCV	said
+1	NCV	understood
 
 1	Det	the
 1	Det	a
