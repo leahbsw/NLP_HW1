@@ -144,7 +144,7 @@ class Grammar:
         """
         sentence = ""
 
-        if num_expansions <= 0:
+        if num_expansions <= 0 and any(ch.isupper() for ch in symbol):
             # for very large sentences, return ... when the limit is reached
             return "... "
 
