@@ -1,0 +1,169 @@
+# Symbols in the grammar are case-sensitive.
+# 
+# This grammar uses a convention that
+#    - terminals are usually lowercase  (president)
+#    - preterminals are capitalized     (Noun)
+#    - other nonterminals are all-caps  (NP)
+# 
+# This convention just makes grammars more readable to humans.  Thus:
+#
+#    - When *you* are writing grammars in questions 3 and 6, you should 
+#      follow this convention unless you have a good reason not to.  
+#
+#    - But your *program* should still work with grammars that don't
+#      follow this convention.  So how can your program reliably tell
+#      the difference between terminal and nonterminal symbols?  If
+#      there is at least one rule for rewriting a symbol, then that
+#      symbol is a nonterminal and should be rewritten.
+#######################
+
+# Rules for creating full sentences.
+
+1	ROOT	S .
+1	ROOT	S !
+1	ROOT	NC .
+1	ROOT	NC !
+1	ROOT	is it true that NC ?     # mixing terminals and nonterminals is ok.
+
+# The basic grammar rules.  Here's what the abbreviations stand for:
+#    S  = sentence
+#    NC  = noun clause
+#    RC  = adjective clause
+#    NCV = noun clause verb
+#    TV = transitive verb
+#    ITV = intransitive verb
+#    Pnoun = proper nouns + it
+#    NP = noun phrase
+#    VP = verb phrase
+#    PP = prepositional phrase
+#    Det = determiner (sometimes called "article")
+#    Prep = preposition
+#    Adj = adjective
+
+1	S	NP VP
+1	S	NP MV IFVP
+1	S	NP LV VAdj
+1	S	NP LV CAdj
+1	S	NP OPV OPNoun NP
+1	S	NP OPV NP to OPNoun
+1	S	NP CV OPNoun IFVP
+
+1	NC	NP NCV that S
+1	NC	that S VP
+1	NC	it VP that S
+
+1	RC	that TV NP
+1	RC	that NP TV
+1	RC	that NP NCV RC
+1	NP	NP RC
+1	VP	TV NP
+1	VP	ITV
+1	VP	ITV PP
+1	VP	VP and VP
+1	VP	TV and VP
+1	IFVP	IFTV NP
+1	IFVP	IFITV 
+1	IFVP	IFITV PP
+3	NP	a CNoun
+5	NP	Det CNoun
+5	NP	Det VNoun
+3	NP	an VNoun
+1	NP	NP PP
+3	NP	PNoun
+1	NP	NP and NP
+1	PP	Prep NP
+1	CNoun	CAdj CNoun
+1	CNoun	CAdj VNoun
+1	VNoun	VAdj CNoun
+1	VNoun	VAdj VNoun
+1	CAdj	very CAdj
+1	CAdj	very VAdj
+
+
+# Vocabulary.  Your program can see that "ate" is a terminal
+# symbol because there exists no rule for rewriting it.
+# Any symbol that can rewrite as a terminal (or a string of 
+# terminals, like "chief of staff") is called a "preterminal."  Notice 
+# that a preterminal is a special kind of nonterminal.
+
+1	TV	ate
+1	TV	wanted
+1	TV	kissed
+1	TV	understood
+1	TV	pickled
+1	TV	perplexed
+
+1	ITV	sighed
+1	ITV	worked
+
+1	NCV	thought
+1	NCV	said
+1	NCV	understood
+
+1	LV	became
+1	LV	seemed
+1	LV	appeared
+1	LV	grew
+
+1	OPV	gave
+1	OPV	brought
+1	OPV	presented
+1	OPV	handed
+
+1	MV	can
+1	MV	must
+1	MV	may
+1	MV	might
+
+1	IFITV	sigh
+1	IFITV	work
+1	IFTV	eat
+1	IFTV	want
+
+1	CV	helped
+1	CV	made
+1	CV	let
+
+
+1	Det	the
+1	Det	every
+
+1	CNoun	president
+1	CNoun	sandwich
+1	CNoun	pickle
+1	CNoun	chief of staff
+1	CNoun	floor
+1	CNoun	proposal
+1	CNoun	desk
+1	VNoun	imp
+1	VNoun	apple
+1	VNoun	aardvark
+1	VNoun	antelope
+1	VNoun	orange
+1	VNoun	envelope
+1	VNoun	umbrella
+1	PNoun	Sally
+1	PNoun	Tom
+1	PNoun	JHU
+
+1	OPNoun	me
+1	OPNoun	you
+1	OPNoun	him
+1	OPNoun	her
+1	OPNoun	them
+
+
+1	VAdj	amazing
+1	VAdj	ambivalent
+1	VAdj	unctuous
+1	VAdj	interested
+1	VAdj	elegant
+1	CAdj	fine
+1	CAdj	delicious
+1	CAdj	perplexed
+1	CAdj	pickled
+
+1	Prep	with
+1	Prep	on
+1	Prep	under
+1	Prep	in
