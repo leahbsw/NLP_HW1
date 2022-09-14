@@ -96,6 +96,7 @@
 1	CNoun	chief of staff
 1	CNoun	floor
 1	VNoun	imp
+1	VNoun	apple
 1	VNoun	aardvark
 1	VNoun	antelope
 1	VNoun	orange
@@ -106,6 +107,7 @@
 1	PNoun	JHU
 
 1	VAdj	amazing
+1	VAdj	ambivalent
 1	VAdj	unctuous
 1	VAdj	interested
 1	VAdj	elegant
