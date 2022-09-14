@@ -49,6 +49,7 @@
 1	VP	ITV
 1	VP	ITV PP
 1	VP	VP and VP
+1	VP	TV and VP
 3	NP	Det Noun
 1	NP	NP PP
 3	NP	PNoun
@@ -81,6 +82,8 @@
 
 1	Noun	president
 1	Noun	sandwich
+1	Noun	proposal
+1	Noun	desk
 1	Noun	pickle
 1	Noun	chief of staff
 1	Noun	floor
