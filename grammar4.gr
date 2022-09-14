@@ -24,12 +24,13 @@
 1	ROOT	NC .
 1	ROOT	NC !
 1	ROOT	is it true that NC ?     # mixing terminals and nonterminals is ok.
-
+#1   ROOT    RC .
+#1   ROOT    RC !
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
 #    NC  = noun clause
-#    AC  = adjective clause
+#    RC  = adjective clause
 #    NCV = noun clause verb
 #    TV = transitive verb
 #    ITV = intransitive verb
@@ -45,15 +46,17 @@
 1	NC	NP NCV that S
 1	NC	that S VP
 1	NC	it VP that S
-1	NP	NP that TV NP
-1	NP	NP that NP ITV
-1	NP	NP that NP NCV that NP ITV
-1	NP	NP that NP NCV that TV NP
+1	RC	that TV NP
+1	RC	that NP TV
+1	RC	that NP NCV RC
+1	NP	NP RC
 1	VP	TV NP
 1	VP	ITV
 1	VP	ITV PP
 1	VP	VP and VP
 3	NP	a CNoun
+5	NP	Det CNoun
+5	NP	Det VNoun
 3	NP	an VNoun
 1	NP	NP PP
 3	NP	PNoun
@@ -86,8 +89,6 @@
 1	NCV	understood
 
 1	Det	the
-1	Det	a
-1	Det	an
 1	Det	every
 
 1	CNoun	president
