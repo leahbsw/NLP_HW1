@@ -146,7 +146,7 @@ class Grammar:
 
         if num_expansions <= 0:
             # for very large sentences, return ... when the limit is reached
-            return "..."
+            return "... "
 
         if symbol in self.rules.keys():
             # start with max_expansions given by the user and keep decrementing each time symbol is expanded
