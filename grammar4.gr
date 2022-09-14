@@ -24,8 +24,6 @@
 1	ROOT	NC .
 1	ROOT	NC !
 1	ROOT	is it true that NC ?     # mixing terminals and nonterminals is ok.
-#1   ROOT    RC .
-#1   ROOT    RC !
 
 # The basic grammar rules.  Here's what the abbreviations stand for:
 #    S  = sentence
@@ -54,6 +52,7 @@
 1	VP	ITV
 1	VP	ITV PP
 1	VP	VP and VP
+1	VP	TV and VP
 3	NP	a CNoun
 5	NP	Det CNoun
 5	NP	Det VNoun
@@ -96,6 +95,8 @@
 1	CNoun	pickle
 1	CNoun	chief of staff
 1	CNoun	floor
+1	CNoun	proposal
+1	CNoun	desk
 1	VNoun	imp
 1	VNoun	apple
 1	VNoun	aardvark
